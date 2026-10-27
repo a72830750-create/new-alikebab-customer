@@ -467,6 +467,19 @@ setInterval(showMyOrder,10000);
     if (savedCancel) savedCancel.addEventListener('click', closeSavedAddressesModal);
     const savedModal = document.getElementById('saved-addresses-modal');
     if (savedModal) savedModal.addEventListener('click', function(e) { if (e.target === savedModal) closeSavedAddressesModal(); });
+    const saveAddrBtn = document.getElementById('save-new-addr-btn');
+    if (saveAddrBtn) saveAddrBtn.addEventListener('click', function() {
+        const label = document.getElementById('new-addr-label')?.value.trim() || '';
+        const name = document.getElementById('new-addr-name')?.value.trim() || '';
+        const phone = document.getElementById('new-addr-phone')?.value.trim() || '';
+        const street = document.getElementById('new-addr-street')?.value.trim() || '';
+        const city = document.getElementById('new-addr-city')?.value.trim() || '';
+        if (!street) return;
+        const addrs = getSavedAddresses();
+        addrs.push({ label, name, phone, street, city, address: street + ', ' + city });
+        saveSavedAddresses(addrs);
+        renderSavedAddressesList();
+    });
 
     if (confirmOk) confirmOk.addEventListener('click', closeConfirmModal);
     if (confirmModal) confirmModal.addEventListener('click', function(e) { if (e.target === confirmModal) closeConfirmModal(); });
