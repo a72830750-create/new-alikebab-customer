@@ -243,7 +243,7 @@ async function submitOrder() {
     const deliveryTime = document.getElementById('delivery-time')?.value || null;
     const pickupTime = document.getElementById('pickup-time')?.value || null;
 
-    try { const r=await fetch('https://backend-1-osni.onrender.com/api/settings'); const d=await r.json(); if(d.accepting_orders==='false'){ if(checkoutStatus){checkoutStatus.textContent='Ristorante chiuso. Ordini non accettati.';checkoutStatus.className='checkout-status error';} return; } } catch(e){}
+    try { const r=await fetch('https://new-alikebab-backend.onrender.com/api/settings'); const d=await r.json(); if(d.accepting_orders==='false'){ if(checkoutStatus){checkoutStatus.textContent='Ristorante chiuso. Ordini non accettati.';checkoutStatus.className='checkout-status error';} return; } } catch(e){}
     if (orderType === 'delivery' && getCartTotal() < 15) { if (checkoutStatus) { checkoutStatus.textContent = 'Ordine minimo per consegna: €15.00.'; checkoutStatus.className = 'checkout-status error'; } return; }
     if (!name || !phone) { if (checkoutStatus) { checkoutStatus.textContent = 'Compila nome e telefono.'; checkoutStatus.className = 'checkout-status error'; } return; }
     if (orderType === 'delivery' && !address) { if (checkoutStatus) { checkoutStatus.textContent = 'Inserisci indirizzo di consegna.'; checkoutStatus.className = 'checkout-status error'; } return; }
@@ -274,7 +274,7 @@ async function submitOrder() {
     };
 
     try {
-        const API_URL = 'https://backend-1-osni.onrender.com';
+        const API_URL = 'https://new-alikebab-backend.onrender.com';
         const resp = await fetch(API_URL + '/api/orders', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -364,7 +364,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const moc=document.getElementById("my-order-close"); if(moc) moc.addEventListener("click",()=>{const mm=document.getElementById("my-order-modal");if(mm)mm.classList.remove("show");});
     const mob=document.getElementById("my-order-btn"); if(mob) mob.addEventListener("click", showMyOrder);
 
-function showMyOrder(){const num=localStorage.getItem("alikebab_last_order");if(!num)return;const el=document.getElementById("my-order-status");fetch("https://backend-1-osni.onrender.com/api/orders/lookup/"+num).then(r=>r.json()).then(d=>{if(el)el.textContent=d.order_number+": "+d.status;});}
+function showMyOrder(){const num=localStorage.getItem("alikebab_last_order");if(!num)return;const el=document.getElementById("my-order-status");fetch("https://new-alikebab-backend.onrender.com/api/orders/lookup/"+num).then(r=>r.json()).then(d=>{if(el)el.textContent=d.order_number+": "+d.status;});}
 setInterval(showMyOrder,10000);
 
 
@@ -536,7 +536,7 @@ window.showMyOrder=function(){const num=localStorage.getItem("alikebab_last_orde
 const steps=["new","accepted","preparing","ready","out_for_delivery","completed"];
 const labels={new:"Ordine ricevuto",accepted:"Ordine accettato",preparing:"Preparazione in corso",ready:"Pronto per il ritiro",out_for_delivery:"In consegna",completed:"Consegnato / Ritirato",rejected:"Ordine annullato"};
 function tick(){const err=document.getElementById("my-order-error");if(err)err.style.display="none";
-fetch("https://backend-1-osni.onrender.com/api/orders/lookup/"+num).then(r=>{if(!r.ok)throw new Error("not found");return r.json();}).then(d=>{
+fetch("https://new-alikebab-backend.onrender.com/api/orders/lookup/"+num).then(r=>{if(!r.ok)throw new Error("not found");return r.json();}).then(d=>{
 const idx=steps.indexOf(d.status);
 const tl=document.getElementById("track-timeline");
 if(tl)tl.querySelectorAll("li").forEach((li,i)=>{const step=li.dataset.step;const si=steps.indexOf(step);li.classList.toggle("done",d.status!=="rejected" && si<=idx && si!==-1);li.classList.toggle("active",step===d.status);});
