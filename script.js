@@ -364,7 +364,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const moc=document.getElementById("my-order-close"); if(moc) moc.addEventListener("click",()=>{const mm=document.getElementById("my-order-modal");if(mm)mm.classList.remove("show");});
     const mob=document.getElementById("my-order-btn"); if(mob) mob.addEventListener("click", showMyOrder);
 
-function showMyOrder(){const num=localStorage.getItem("alikebab_last_order");if(!num)return;const el=document.getElementById("my-order-status");fetch("https://new-alikebab-backend.onrender.com/api/orders/lookup/"+num).then(r=>r.json()).then(d=>{if(el)el.textContent=d.order_number+": "+d.status;if(d.status==="completed")location.reload();});}
+function showMyOrder(){const num=localStorage.getItem("alikebab_last_order");if(!num)return;const el=document.getElementById("my-order-status");fetch("https://new-alikebab-backend.onrender.com/api/orders/lookup/"+num).then(r=>r.json()).then(d=>{if(el)el.textContent=d.order_number+": "+d.status;if(d.status==="completed"){localStorage.removeItem("alikebab_last_order");if(el)el.textContent="";location.reload();}});}
 setInterval(showMyOrder,10000);
 
 
