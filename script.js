@@ -1,7 +1,7 @@
-// ===== FARID KEBAB - Ordering System =====
+// ===== ALI KEBABBARO - Ordering System =====
 
 let cart = [];
-function saveCart() { try { localStorage.setItem('faridkebab_cart', JSON.stringify(cart)); } catch(e) {} }
+function saveCart() { try { localStorage.setItem('alikebab_cart', JSON.stringify(cart)); } catch(e) {} }
 
 // DOM refs
 const floatingCartBtn = document.getElementById('floating-cart-btn');
@@ -290,7 +290,7 @@ async function submitOrder() {
     if (confirmMessage) confirmMessage.textContent = 'Grazie, ' + name + '!\n\n' + summary + '\n\nTotal: €' + total.toFixed(2) + '\n' + (orderType === 'delivery' ? 'Consegna a: ' + address : 'Ritiro') + (notes ? '\nNote: ' + notes : '');
     if (confirmModal) confirmModal.classList.add('show');
 
-    localStorage.setItem("faridkebab_last_order", order.order_number);
+    localStorage.setItem("alikebab_last_order", order.order_number);
     cart = [];
     saveCart();
     updateCartUI();
@@ -299,11 +299,11 @@ async function submitOrder() {
 }
 
 function getSavedAddresses() {
-    try { return JSON.parse(localStorage.getItem('faridkebab_addresses') || '[]'); }
+    try { return JSON.parse(localStorage.getItem('alikebab_addresses') || '[]'); }
     catch { return []; }
 }
 function saveSavedAddresses(addrs) {
-    try { localStorage.setItem('faridkebab_addresses', JSON.stringify(addrs)); } catch(e) {}
+    try { localStorage.setItem('alikebab_addresses', JSON.stringify(addrs)); } catch(e) {}
 }
 function openSavedAddressesModal() {
     renderSavedAddressesList();
@@ -356,7 +356,7 @@ function renderSavedAddressesList() {
 
 document.addEventListener('DOMContentLoaded', function() {
     try {
-        const savedCart = localStorage.getItem('faridkebab_cart');
+        const savedCart = localStorage.getItem('alikebab_cart');
         if (savedCart) cart = JSON.parse(savedCart);
     } catch(e) { cart = []; }
 
@@ -364,7 +364,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const moc=document.getElementById("my-order-close"); if(moc) moc.addEventListener("click",()=>{const mm=document.getElementById("my-order-modal");if(mm)mm.classList.remove("show");});
     const mob=document.getElementById("my-order-btn"); if(mob) mob.addEventListener("click", showMyOrder);
 
-function showMyOrder(){const num=localStorage.getItem("faridkebab_last_order");if(!num)return;const el=document.getElementById("my-order-status");fetch("https://backend-1-osni.onrender.com/api/orders/lookup/"+num).then(r=>r.json()).then(d=>{if(el)el.textContent=d.order_number+": "+d.status;});}
+function showMyOrder(){const num=localStorage.getItem("alikebab_last_order");if(!num)return;const el=document.getElementById("my-order-status");fetch("https://backend-1-osni.onrender.com/api/orders/lookup/"+num).then(r=>r.json()).then(d=>{if(el)el.textContent=d.order_number+": "+d.status;});}
 setInterval(showMyOrder,10000);
 
 
@@ -532,7 +532,7 @@ else initFixedFallback();
 
 
 
-window.showMyOrder=function(){const num=localStorage.getItem("faridkebab_last_order");if(!num){alert("Nessun ordine ancora");return;}const modal=document.getElementById("my-order-modal");if(modal)modal.classList.add("show");
+window.showMyOrder=function(){const num=localStorage.getItem("alikebab_last_order");if(!num){alert("Nessun ordine ancora");return;}const modal=document.getElementById("my-order-modal");if(modal)modal.classList.add("show");
 const steps=["new","accepted","preparing","ready","out_for_delivery","completed"];
 const labels={new:"Ordine ricevuto",accepted:"Ordine accettato",preparing:"Preparazione in corso",ready:"Pronto per il ritiro",out_for_delivery:"In consegna",completed:"Consegnato / Ritirato",rejected:"Ordine annullato"};
 function tick(){const err=document.getElementById("my-order-error");if(err)err.style.display="none";
