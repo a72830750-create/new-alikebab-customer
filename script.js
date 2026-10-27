@@ -441,6 +441,8 @@ setInterval(showMyOrder,10000);
     document.querySelectorAll('input[name="order_type"]').forEach(radio => {
         radio.addEventListener('change', function() {
             if (addressGroup) addressGroup.style.display = this.value === 'delivery' ? 'block' : 'none';
+            const dtg = document.getElementById('delivery-time-group');
+            if (dtg) dtg.style.display = this.value === 'delivery' ? 'block' : 'none';
             const minMsg = document.getElementById('min-order-msg');
             const checkoutSubmitBtn = document.getElementById('checkout-submit');
             const total = getCartTotal();
