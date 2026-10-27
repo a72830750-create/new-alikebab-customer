@@ -431,6 +431,13 @@ setInterval(showMyOrder,10000);
     if (checkoutSubmit) checkoutSubmit.addEventListener('click', submitOrder);
     if (checkoutModal) checkoutModal.addEventListener('click', function(e) { if (e.target === checkoutModal) closeCheckoutModal(); });
 
+    document.querySelectorAll('input[name="delivery_timing"]').forEach(r => {
+        r.addEventListener('change', function() {
+            const g = document.getElementById('custom-time-group');
+            if (g) g.style.display = this.value === 'later' ? 'block' : 'none';
+        });
+    });
+
     document.querySelectorAll('input[name="order_type"]').forEach(radio => {
         radio.addEventListener('change', function() {
             if (addressGroup) addressGroup.style.display = this.value === 'delivery' ? 'block' : 'none';
