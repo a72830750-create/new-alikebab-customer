@@ -443,6 +443,8 @@ setInterval(showMyOrder,10000);
             if (addressGroup) addressGroup.style.display = this.value === 'delivery' ? 'block' : 'none';
             const dtg = document.getElementById('delivery-time-group');
             if (dtg) dtg.style.display = this.value === 'delivery' ? 'block' : 'none';
+            const ptg = document.getElementById('pickup-time-group');
+            if (ptg) ptg.style.display = this.value === 'pickup' ? 'block' : 'none';
             const minMsg = document.getElementById('min-order-msg');
             const checkoutSubmitBtn = document.getElementById('checkout-submit');
             const total = getCartTotal();
