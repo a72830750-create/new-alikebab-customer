@@ -386,6 +386,7 @@ setInterval(showMyOrder,10000);
         btn.addEventListener('click', function(e) {
             e.stopPropagation();
             const card = this.closest('.dish-card');
+            console.log('add-to-cart click', card && card.dataset.name);
             if (!card) return;
             openDishModal(card.dataset.name, parseFloat(card.dataset.price));
         });
