@@ -578,3 +578,13 @@ window._trackTimer=setInterval(tick,10000);
 // stop polling on close
 const _moc=document.getElementById("my-order-close");if(_moc)_moc.addEventListener("click",()=>{if(window._trackTimer){clearInterval(window._trackTimer);window._trackTimer=null;}});
 
+
+async function applyAccepting(){
+  try{const r=await fetch((p.includes('alikebab')?'https://new-alikebab-backend.onrender.com':'https://backend-1-osni.onrender.com')+'/api/settings');const d=await r.json();
+  if(d.accepting_orders==='false'){
+    let b=document.getElementById('closed-banner'); if(!b){b=document.createElement('div');b.id='closed-banner';b.style.cssText='position:fixed;bottom:0;left:0;right:0;background:#000;color:#fff;padding:10px;text-align:center;z-index:9999;';b.textContent='Ordini chiusi dal proprietario';document.body.appendChild(b);}
+    document.querySelectorAll('button').forEach(x=>x.disabled=true);
+  } else { const b=document.getElementById('closed-banner'); if(b) b.remove(); }
+  }catch(e){}
+}
+setInterval(applyAccepting,5000); applyAccepting();
