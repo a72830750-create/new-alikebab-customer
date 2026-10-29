@@ -238,7 +238,9 @@ async function submitOrder() {
     const postcode = document.getElementById('addr-postcode')?.value.trim() || '';
     const address = [street, city, postcode].filter(Boolean).join(', ');
     const orderType = document.querySelector('input[name="order_type"]:checked')?.value || 'delivery';
-    const notes = document.getElementById('order-notes')?.value.trim() || '';
+    const itemNotes = cart.map(i => i.requests ? (i.name + ': ' + i.requests) : '').filter(Boolean).join('; ');
+    const orderNotes = document.getElementById('order-notes')?.value.trim() || '';
+    const notes = [itemNotes, orderNotes].filter(Boolean).join('; ');
     const deliveryTiming = document.querySelector('input[name="delivery_timing"]:checked')?.value || 'now';
     const deliveryTime = document.getElementById('delivery-time')?.value || null;
     const pickupTime = document.getElementById('pickup-time')?.value || null;
@@ -363,8 +365,9 @@ document.addEventListener('DOMContentLoaded', function() {
     initQuickNavActive();
     const moc=document.getElementById("my-order-close"); if(moc) moc.addEventListener("click",()=>{const mm=document.getElementById("my-order-modal");if(mm)mm.classList.remove("show");});
     const mob=document.getElementById("my-order-btn"); if(mob) mob.addEventListener("click", showMyOrder);
+    const saved=localStorage.getItem("alikebab_last_order");if(mob&&saved){mob.style.display="flex";showMyOrder();}
 
-function showMyOrder(){const num=localStorage.getItem("alikebab_last_order");if(!num)return;const el=document.getElementById("my-order-status");fetch("https://new-alikebab-backend.onrender.com/api/orders/lookup/"+num).then(r=>r.json()).then(d=>{if(el)el.textContent=d.order_number+": "+d.status;if(d.status==="completed"){localStorage.removeItem("alikebab_last_order");if(el)el.textContent="";location.reload();}});}
+function showMyOrder(){const num=localStorage.getItem("alikebab_last_order");if(!num){const mob=document.getElementById("my-order-btn");if(mob)mob.style.display="none";return;}const el=document.getElementById("my-order-status");fetch("https://new-alikebab-backend.onrender.com/api/orders/lookup/"+num).then(r=>{if(!r.ok)throw new Error("not found");return r.json();}).then(d=>{const mob=document.getElementById("my-order-btn");if(mob)mob.style.display = d.status==="completed" ? "flex" : "none";if(el)el.textContent=d.order_number+": "+d.status;if(d.status!=="completed")return;if(d.status==="completed"){localStorage.removeItem("alikebab_last_order");if(el)el.textContent="";}});};
 setInterval(showMyOrder,10000);
 
 
